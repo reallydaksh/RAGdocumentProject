@@ -1,4 +1,4 @@
-# 📄 AskMyDocs — Chat with your documents using RAG
+# AskMyDocs: Chat with your documents using RAG
 
 AskMyDocs lets you upload PDFs or text files and ask questions in plain English. Every answer is **grounded in your documents and cited down to the page**, so you can verify it instead of trusting a black box.
 
@@ -9,7 +9,7 @@ It tackles a common problem: people waste hours searching long handbooks, contra
 
 ---
 
-## ✨ Features
+## Features
 
 - **Multi-document Q&A** over PDF, TXT and Markdown files
 - **Page-level citations** — every claim links to `[n]` with file name and page number
@@ -20,7 +20,7 @@ It tackles a common problem: people waste hours searching long handbooks, contra
 - **Google Gemini** — Gemini embeddings and chat generation with a free-tier API key
 - **Offline test suite** — fake embedder/LLM so tests run without an API key
 
-## 🏗️ How it works
+## How it works
 
 ```
 Upload ──► Parse (pypdf) ──► Sentence-aware chunking ──► Embeddings ──► FAISS index
@@ -36,7 +36,7 @@ Question ──► Embed query ──► FAISS top-N ─┐
 
 **Why hybrid search?** Embeddings are great at meaning ("time off" ≈ "annual leave") but weak on exact tokens like policy numbers, acronyms and names. BM25 is the opposite. RRF combines both rankings without needing to calibrate their different score scales.
 
-## 🧰 Tech stack
+## Tech stack
 
 | Layer | Tools |
 |---|---|
@@ -47,7 +47,7 @@ Question ──► Embed query ──► FAISS top-N ─┐
 | UI | Streamlit |
 | Testing | pytest |
 
-## 🚀 Run it locally (VS Code)
+## Run it locally (VS Code)
 
 **Prerequisites:** Python 3.10–3.12 and [VS Code](https://code.visualstudio.com/) with the Python extension.
 
@@ -102,7 +102,7 @@ Question ──► Embed query ──► FAISS top-N ─┐
    pytest -q
    ```
 
-## ☁️ Deploy (free) on Streamlit Community Cloud
+## Deploy (free) on Streamlit Community Cloud
 
 1. Push this repo to GitHub (see below).
 2. Go to <https://share.streamlit.io> → **New app** → pick your repo, branch `main`, file `app.py`.
@@ -112,7 +112,7 @@ Question ──► Embed query ──► FAISS top-N ─┐
    ```
 4. Deploy, then paste the URL at the top of this README.
 
-## 📤 Push to GitHub
+## Push to GitHub
 
 ```bash
 git init
@@ -123,7 +123,7 @@ git remote add origin https://github.com/<your-username>/askmydocs.git
 git push -u origin main
 ```
 
-## 📁 Project structure
+## Project structure
 
 ```
 askmydocs/
@@ -142,7 +142,7 @@ askmydocs/
 └── .env.example
 ```
 
-## 🔭 Possible next steps
+## Possible next steps
 
 - Cross-encoder re-ranking of the fused results
 - Persisting indexes to disk so large document sets aren't re-embedded

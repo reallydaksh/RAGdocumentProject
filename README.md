@@ -123,8 +123,6 @@ git remote add origin https://github.com/<your-username>/askmydocs.git
 git push -u origin main
 ```
 
-`.env` is in `.gitignore`, so your API key will **not** be uploaded.
-
 ## 📁 Project structure
 
 ```

@@ -58,12 +58,24 @@ def pipeline():
     return p
 
 
+def test_settings_require_gemini_api_key():
+    with pytest.raises(ValueError, match="GEMINI_API_KEY"):
+        Settings(gemini_api_key="").validate()
+
+    Settings(gemini_api_key="test-key").validate()
+
+
 def test_chunks_respect_size_and_keep_pages():
     pages = [Page("a.pdf", 3, DOC)]
     chunks = chunk_pages(pages, chunk_size=200, overlap=40)
     assert len(chunks) > 1
     assert all(len(c.text) <= 200 for c in chunks)
     assert all(c.page == 3 and c.source == "a.pdf" for c in chunks)
+
+    # Edge case: carried overlap + large sentence should never exceed chunk_size
+    edge_text = ("A" * 28 + ". ") + ("B" * 28 + ". ") + ("C" * 178 + ".")
+    edge_chunks = chunk_pages([Page("edge.txt", 1, edge_text)], chunk_size=200, overlap=35)
+    assert all(len(c.text) <= 200 for c in edge_chunks)
 
 
 def test_overlap_must_be_smaller_than_size():

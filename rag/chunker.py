@@ -45,11 +45,11 @@ def chunk_pages(pages: list[Page], chunk_size: int = 1000, overlap: int = 200) -
         for unit in units:
             if current and length + len(unit) + 1 > chunk_size:
                 chunks.append(Chunk(len(chunks), page.source, page.page, " ".join(current)))
-                # carry trailing units forward as overlap
+                # carry trailing units forward as overlap without exceeding chunk_size
                 carried: list[str] = []
                 carried_len = 0
                 for prev in reversed(current):
-                    if carried_len + len(prev) + 1 > overlap:
+                    if carried_len + len(prev) + 1 > overlap or carried_len + len(prev) + 1 + len(unit) + 1 > chunk_size:
                         break
                     carried.insert(0, prev)
                     carried_len += len(prev) + 1

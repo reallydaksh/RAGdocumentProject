@@ -17,7 +17,7 @@ It tackles a common problem: people waste hours searching long handbooks, contra
 - **Hallucination guardrail** — the model says *"I couldn't find that"* instead of guessing
 - **Follow-up questions** — recent chat history is passed in for conversational context
 - **Streaming answers** and an expandable **Sources** panel showing why each excerpt matched (semantic vs keyword)
-- **Provider-agnostic** — switch between Google Gemini (free tier) and OpenAI with one env var
+- **Google Gemini** — Gemini embeddings and chat generation with a free-tier API key
 - **Offline test suite** — fake embedder/LLM so tests run without an API key
 
 ## 🏗️ How it works
@@ -29,7 +29,7 @@ Upload ──► Parse (pypdf) ──► Sentence-aware chunking ──► Embed
 Question ──► Embed query ──► FAISS top-N ─┐
          └─► Tokenize ─────► BM25 top-N ──┴─► Reciprocal Rank Fusion ──► top-k excerpts
                                                                               │
-                          LLM (Gemini / OpenAI) ◄── grounded prompt + citations┘
+                          LLM (Gemini) ◄── grounded prompt + citations┘
                                      │
                           Streamed answer with [1][2] citations + Sources panel
 ```
@@ -40,7 +40,7 @@ Question ──► Embed query ──► FAISS top-N ─┐
 
 | Layer | Tools |
 |---|---|
-| LLM & embeddings | Google Gemini (`gemini-2.5-flash`, `gemini-embedding-001`) or OpenAI (`gpt-4o-mini`, `text-embedding-3-small`) |
+| LLM & embeddings | Google Gemini (`gemini-3.8-flash`, `gemini-embedding-001`) |
 | Vector search | FAISS (`IndexFlatIP`, cosine similarity) |
 | Keyword search | BM25 (`rank-bm25`) |
 | Document parsing | pypdf |
@@ -82,7 +82,7 @@ Question ──► Embed query ──► FAISS top-N ─┐
    cp .env.example .env
    ```
 
-   Get a free Gemini key at <https://aistudio.google.com/apikey>. To use OpenAI instead, set `LLM_PROVIDER=openai` and fill in `OPENAI_API_KEY`.
+   Get a free Gemini key at <https://aistudio.google.com/apikey> and add it as `GEMINI_API_KEY` in `.env`.
 
 5. **Run the app** — either press **F5** (uses the included *Run AskMyDocs* launch config) or:
 
@@ -108,7 +108,6 @@ Question ──► Embed query ──► FAISS top-N ─┐
 2. Go to <https://share.streamlit.io> → **New app** → pick your repo, branch `main`, file `app.py`.
 3. Under **Advanced settings → Secrets**, add:
    ```toml
-   LLM_PROVIDER = "gemini"
    GEMINI_API_KEY = "your-key"
    ```
 4. Deploy, then paste the URL at the top of this README.
@@ -135,7 +134,7 @@ askmydocs/
 │   ├── config.py          # settings from .env
 │   ├── loader.py          # PDF/TXT/MD → pages
 │   ├── chunker.py         # sentence-aware chunks with overlap, keeps page numbers
-│   ├── providers.py       # Gemini / OpenAI embedding + chat wrappers
+│   ├── providers.py       # Gemini embedding + chat wrappers
 │   ├── retriever.py       # FAISS + BM25 hybrid search with RRF
 │   └── pipeline.py        # orchestration + grounded prompt
 ├── tests/test_rag.py      # offline tests with fake models

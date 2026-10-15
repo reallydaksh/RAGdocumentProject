@@ -48,7 +48,7 @@ with st.sidebar:
 
     try:
         settings.validate()
-        st.success(f"Provider: **{settings.provider}**", icon="✅")
+        st.success("Provider: **Google Gemini**", icon="✅")
     except ValueError as e:
         st.error(str(e), icon="🔑")
         st.stop()
@@ -92,8 +92,7 @@ if pipeline is None:
         "Try a policy handbook, research paper, contract or user manual — then ask things like:\n"
         "- *What is the notice period for resignation?*\n"
         "- *Summarise the key findings in section 3.*\n"
-        "- *Which clauses mention penalties?*\n\n"
-        "A sample document is included in `sample_docs/`."
+        "- *Which clauses mention penalties?*"
     )
     st.stop()
 
